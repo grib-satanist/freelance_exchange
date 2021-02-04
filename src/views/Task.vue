@@ -19,6 +19,7 @@
 import AppStatus from '../components/AppStatus'
 
 export default {
+
   components: {AppStatus}
 }
 </script>
