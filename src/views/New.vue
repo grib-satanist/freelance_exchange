@@ -1,5 +1,5 @@
 <template>
-  <form class="card">
+  <form class="card" @submit.prevent="submit">
     <h1>Создать новую задачу</h1>
     <div class="form-control">
       <label for="title">Название</label>
@@ -16,16 +16,21 @@
       <textarea id="description" v-model="task.textValue"></textarea>
     </div>
 
-    <button class="btn primary" @click.prevent="test" :disabled="!formValid">Создать</button>
+    <router-link to="/">
+      <button class="btn primary" :disabled="!formValid">Создать</button>
+    </router-link>
   </form>
 </template>
 
 
 <script>
 import {computed, reactive} from 'vue'
+import {useStore} from 'vuex'
 
 export default {
   setup() {
+    const store = useStore()  
+
     const task = reactive({
       titleValue: '',
       dateValue: '',
@@ -43,10 +48,23 @@ export default {
       return isValid
     })
 
-    
+    const submit = () => {
+      store.commit('addTask', {
+        name: task.titleValue,
+        date: task.dateValue,
+        text: task.textValue,
+        id: Date.now()
+      })
+
+      for (let key in task) {
+        task[key] = ''
+      }
+    }
+
     return {
       formValid,
-      task
+      task,
+      submit
     }
   }
 }
