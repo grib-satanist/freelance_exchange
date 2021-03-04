@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import New from '../views/New.vue'
 import Tasks from '../views/Tasks.vue'
+import Task from '../views/Task.vue'
+import NotFound from '../views/NotFound.vue'
 
 const routes = [
   {
@@ -12,6 +14,17 @@ const routes = [
     path: '/new',
     name: 'New',
     component: New
+  },
+  {
+    path: '/task',
+    name: 'Tasks',
+    component: Task,
+    children: [
+      { path: ':taskId?', component: Task, props: true }
+    ]
+  },
+  {
+    path: '/:notFound(.*)', component: NotFound
   }
 ]
 

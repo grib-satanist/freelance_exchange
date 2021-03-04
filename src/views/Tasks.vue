@@ -1,9 +1,10 @@
 <template>
-  <template v-if="$store.state.tasks.length">
-      <h3 class="text-white">Всего активных задач: 0</h3>
+  <template v-if="$store.getters.tasks.length">
+      <h3 class="text-white">Всего активных задач: {{$store.getters.activeTask}}</h3>
     <task-card
-      v-for="task in $store.state.tasks" 
+      v-for="task in $store.getters.tasks" 
       :key="task.id"
+      :task="task"
     ></task-card>
   </template>
   
@@ -25,8 +26,9 @@ export default {
     const store = useStore()
     onMounted(() => {
       store.commit('loadTasks')
+      store.commit('countActiveTask')
     })
-
+  
     return
   },
   components: { TaskCard }

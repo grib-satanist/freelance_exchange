@@ -1,17 +1,19 @@
 <template >
   <div class="card">
     <h2 class="card-title">
-      Название задачи
-      <AppStatus :type="'done'" />
+      {{task.name}}
+      <AppStatus :type="'done'" :status="task.status"/>
     </h2>
     <p>
       <strong>
         <small>
-          {{new Date().toLocaleDateString()}}
+          {{task.date}}
         </small>
       </strong>
     </p>
-    <button class="btn primary">Посмотреть</button>
+    <router-link :to="'/task/' + task.id">
+      <button class="btn primary">Посмотреть</button>
+    </router-link>
   </div>
 </template>
 
@@ -20,6 +22,7 @@
 import AppStatus from '../components/AppStatus'
 
 export default {
-  components: {AppStatus}
+  components: {AppStatus},
+  props: ['task']
 }
 </script>

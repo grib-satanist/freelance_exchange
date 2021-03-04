@@ -16,9 +16,7 @@
       <textarea id="description" v-model="task.textValue"></textarea>
     </div>
 
-    <router-link to="/">
-      <button class="btn primary" :disabled="!formValid">Создать</button>
-    </router-link>
+    <button class="btn primary" :disabled="!formValid">Создать</button>
   </form>
 </template>
 
@@ -26,10 +24,12 @@
 <script>
 import {computed, reactive} from 'vue'
 import {useStore} from 'vuex'
+import {useRouter} from 'vue-router'
 
 export default {
   setup() {
-    const store = useStore()  
+    const store = useStore()
+    const router = useRouter()
 
     const task = reactive({
       titleValue: '',
@@ -49,16 +49,19 @@ export default {
     })
 
     const submit = () => {
+      const statusTask = (Date.parse(task.dateValue) >= Date.now()) ? 'active' : 'cancelled'
       store.commit('addTask', {
         name: task.titleValue,
         date: task.dateValue,
         text: task.textValue,
+        status: statusTask,
         id: Date.now()
       })
 
       for (let key in task) {
         task[key] = ''
       }
+      router.push('/')
     }
 
     return {
