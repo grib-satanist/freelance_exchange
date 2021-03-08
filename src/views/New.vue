@@ -40,11 +40,11 @@ export default {
     const isFormValid = computed(() => {
       let isValid = true
 
-      for (let key in task) {
-        if (task[key] === '') {
+      Object.values(task).forEach((elem) => {
+        if (elem === '') {
           isValid = false
         }
-      }
+      })
       return isValid
     })
 
