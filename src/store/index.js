@@ -7,8 +7,7 @@ const saveToLocalStorage = (key, data) => {
 export default createStore({
   state() {
     return {
-      tasks: [],
-      activeTask: 0
+      tasks: []
     }
   },
   getters: {
@@ -17,25 +16,15 @@ export default createStore({
     },
     tasks(state) {
       return state.tasks
-    }
+    },
+    countActiveTask(getters) {
+      return getters.tasks.filter(a => a.status ==='active').length
+    },
   },
   mutations: {
-    loadTasks(getters) {
-      if (localStorage.getItem('tasks') !== null) {
-        const data = JSON.parse(localStorage.getItem('tasks'))
-        getters.tasks = Object.keys(data).map( key => {
-          return {
-            ...data[key]
-          }
-        })
-      }
-    },
     addTask(getters, payload) {
       getters.tasks.push(payload)
       saveToLocalStorage('tasks', getters.tasks)
-    },
-    countActiveTask(getters) {
-      getters.activeTask = getters.tasks.filter(a => a.status ==='active').length
     },
     updateStatus(getters, arg) {
       const task = getters.tasks.find(e => e.id == arg.taskId)
@@ -44,6 +33,16 @@ export default createStore({
     }
   },
   actions: {
+    loadTasks(context) {
+      if (localStorage.getItem('tasks') !== null) {
+        const data = JSON.parse(localStorage.getItem('tasks'))
+        context.state.tasks = Object.keys(data).map( key => {
+          return {
+            ...data[key]
+          }
+        })
+      }
+    }
   },
   modules: {
   }

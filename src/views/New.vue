@@ -16,7 +16,7 @@
       <textarea id="description" v-model="task.textValue"></textarea>
     </div>
 
-    <button class="btn primary" :disabled="!formValid">Создать</button>
+    <button class="btn primary" :disabled="!isFormValid">Создать</button>
   </form>
 </template>
 
@@ -37,7 +37,7 @@ export default {
       textValue: ''
     })
 
-    const formValid = computed(() => {
+    const isFormValid = computed(() => {
       let isValid = true
 
       for (let key in task) {
@@ -58,14 +58,12 @@ export default {
         id: Date.now()
       })
 
-      for (let key in task) {
-        task[key] = ''
-      }
+      Object.keys(task).forEach(elem => task[elem] = '')
       router.push('/')
     }
 
     return {
-      formValid,
+      isFormValid,
       task,
       submit
     }

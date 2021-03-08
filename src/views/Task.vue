@@ -29,7 +29,7 @@ export default {
     const route = useRoute()
 
     onMounted(() => {
-      store.commit('loadTasks')
+      store.dispatch('loadTasks')
     })
 
     const openTask = computed(() => {

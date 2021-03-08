@@ -1,6 +1,6 @@
 <template>
   <template v-if="$store.getters.tasks.length">
-      <h3 class="text-white">Всего активных задач: {{$store.getters.activeTask}}</h3>
+      <h3 class="text-white">Всего активных задач: {{$store.getters.countActiveTask}}</h3>
     <task-card
       v-for="task in $store.getters.tasks" 
       :key="task.id"
@@ -25,8 +25,7 @@ export default {
   setup() {
     const store = useStore()
     onMounted(() => {
-      store.commit('loadTasks')
-      store.commit('countActiveTask')
+      store.dispatch('loadTasks')
     })
   
     return
